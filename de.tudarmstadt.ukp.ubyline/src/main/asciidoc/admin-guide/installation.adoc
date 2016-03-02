@@ -1,0 +1,164 @@
+[[sect_installation]]
+== Installation
+
+=== Prerequisites
+
+* This guide assumes Debian 6.0.0 (Squeeze). It may also work on Ubuntu with some modifications, 
+  but we do not test this. Instructions for other Linux distributions likely deviate significantly.
+* It is further assumed that the user "www-data" already exists on the system and that it shall be 
+  used to run UbyLine. Finally, it is expected that you have set up a MySQL database that UbyLine 
+  can use. 
+* All commands assume that you are logged in as the *root* user.
+
+=== Prepare database
+
+* Install MySQL
+----
+$ sudo apt-get install mysql-server
+----
+* login to MySQL
+----
+$ mysql -u root -p
+----
+* Create databases
+----
+mysql> CREATE DATABASE ubyline DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
+----
+* create a database user called `ubyline` with the password `t0t4llYSecreT`which is later used by 
+  the application to access the database (instructions for `settings.properties`file below).
+----
+mysql> CREATE USER 'ubyline'@'localhost' IDENTIFIED BY 't0t4llYSecreT';
+mysql> GRANT ALL PRIVILEGES ON ubyline.* TO 'ubyline'@'localhost';
+----
+
+=== Dedicated Tomcat instance
+
+* Install Tomcat. 
+----
+$ aptitude install tomcat6
+----
+* Install package to install user-instances of Tomcat. 
+----
+$ aptitude install tomcat6-user
+----
+* Create new instance
+----
+$ cd /opt
+$ tomcat6-instance-create -p 18080 -c 18005 ubyline
+$ chown -R www-data /opt/ubyline
+----
+
+Now we have the /opt/ubyline/ apache tomcat installation. You will put the *ubyline.war* file in the
+/opt/ubyline/webapps/ folder. If you get the war file in different name, such as 
+UbyLine-1.1-beta-10.war, *PLEASE RE-NAME IT TO* *ubyline.war*.
+
+* Configure the startup script. Edit `/etc/init.d/ubyline` and add the following contents:
+----
+#!/bin/sh
+export JAVA_OPTS="-Djava.awt.headless=true -Xmx750m -XX:+UseConcMarkSweepGC -Dubyline.home=/srv/ubyline"
+
+case "$1" in
+start)
+su -c "sh /opt/ubyline/bin/startup.sh" www-data
+;;
+
+stop)
+su -c "sh /opt/ubyline/bin/shutdown.sh" www-data
+;;
+
+restart)
+su -c "sh /opt/ubyline/bin/shutdown.sh" www-data
+su -c "sh /opt/ubyline/bin/startup.sh" www-data
+;;
+esac
+
+exit 0
+----
+* Make the script executable and register it to run during system start:
+----
+$ chmod +x /etc/init.d/ubyline
+$ update-rc.d ubyline defaults
+----
+
+=== Deploy WAR file
+
+* Place the UbyLine WAR into the Tomcat `webapps` folder:
+----
+$ cp ubyline.war /opt/ubyline/webapps/ubyline.war
+----
+* Create UbyLine home folder. This is the directory wher ubyline settings files and projects (Serialized Cases, Source documents...) are stored
+----
+$ mkdir /srv/ubyline
+----
+// FIXME How to reference to sample data?
+* *Optional* If you want to test UbyLine with some sample data, skip the _Users and permissions_ section and follow the instruction at [Sampledata], then come back here.
+* Edit `/srv/ubyline/settings.properties` to define the database connection as well as internal backup properties and enable/disable crowd sourcing component:
+----
+database.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+database.driver=com.mysql.jdbc.Driver
+database.url=jdbc:mysql://localhost:3306/ubyline
+database.username=ubyline
+database.password=t0t4llYSecreT
+
+# 60 * 60 * 24 * 30 = 30 days
+backup.keep.time=1000000
+
+# 60 * 5 = 5 minutes
+backup.interval=1000
+
+backup.keep.number=10
+----
+* Fix permissions in UbyLine home folder
+----
+$ chown -R www-data /srv/ubyline
+----
+* Start UbyLine
+----
+$ service ubyline start
+----
+* Open it with your browser at `http://localhost:18080/ubyline`. If you chose to run UbyLine behind 
+  the Apache web-server use `http://localhost/ubyline`. The first time, it will create a username 
+  admin with password admin. login with this username and proceed.
+
+You can start with the SampleProjects to explore some of the functionalities.
+
+=== Running behind Apache HTTPD
+
+These are *optional* instructions if you want to run UbyLine behind an Apache web-server instead of 
+accessing it directly. This assumes that you already have the following packages installed:
+
+* Apache Web Server
+* mod_proxy
+* mod_proxy_ajp
+
+* Edit `/opt/ubyline/conf/server.xml`
+   * Enable AJP Connector on localhost (comment in and add address)
+----
+<Connector port="38009" protocol="AJP/1.3" redirectPort="8443" address="127.0.0.1"/>
+----
+   * Disable HTTP Connector (just comment it out)
+----
+<!--Connector port="38080" protocol="HTTP/1.1".
+           connectionTimeout="20000".
+           URIEncoding="UTF-8"
+           redirectPort="8443" /-->
+----
+* Edit `/etc/apache2/conf.d/ubyline.local`
+----
+ProxyPreserveHost On
+
+<Proxy ajp://localhost/ubyline >
+  Order Deny,Allow
+  Deny from none
+  Allow from all
+</Proxy>
+
+<Location /ubyline >
+  ProxyPass ajp://localhost:18009/ubyline timeout=1200
+  ProxyPassReverse http://localhost/ubyline
+</Location>
+----
+* Restart Apache web server
+----
+$ sudo /etc/init.d/apache2 restart
+----

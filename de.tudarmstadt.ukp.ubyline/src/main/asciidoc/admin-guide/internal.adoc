@@ -1,0 +1,64 @@
+[sect_internal]]
+== internal
+"list.txt", "complete-dataset.xml", "UBYLINE.sql", "cwb" files and "lexsubcorpus" attached to an e-mail sent on 06/05/2015 called "Required files for Ubyline on the VM"
+"Uby_GN_9" is on OwnCloud under the shared folder "Ubyline"
+=== Data Base
+* To create a new DB, the following steps should be proceeded on your local machine:
+	- create a new DB called UBYLINE : 
+		$ mysql -u root -p
+		CREATE DATABASE UBYLINE;
+	- run your ublyine project on tomcat
+	- run conversions/UbyConversion.java as a java application
+	- copy/paste the lemma list from "list.txt" to the "lemmaList" field of the project table of your UBYLINE DB 
+
+ Congratulations! You have created a new UBYLINE DB 
+ 
+ * To use an already created UBYLINE DB that has some links performed using the admin account, you can import "UBYLINE.sql", already exiting on the server under /home/khemakhem or sent by email, to the Mysql DB
+ 
+ * To import a UBYLINE DB already existing on the server with "khemakhem" user account:
+ 	- mysql -p -u khemakhem UBYLINE < UBYLINE.sql
+ 	- enter the following password: RWLKnZ1r  
+ 	
+=== Corpus
+ * To create the cqp index and the binary cases, you need to:
+ 	- copy the "complete-dataset.xml" file to a specific directory on your local machine
+ 	- modify the "LSDirectory" variable, in your ubyline project under Writers/ToCQPFormatWriter.java, to indicate the path to your "complete-dataset.xml" file
+ 	- indicate the path to your local "cwb/bin" directory for the "ImsCwbWriter.PARAM_CQP_HOME" parameter
+ 	- run conversions/ToCQPFormatWriter.java as a java application 
+ 	
+ Two directories "binaryCases" and "lexSubData" should be created in your project under ubyline/target, if everything works fine.
+ 
+ Just you need to organize your directories as following:
+ 	+-- _lexsubcorpus
+ 	|	+-- _binaryCases
+ 	|	+-- _LEXSUB
+ 	| 		+-- corpus.properties
+ 	|		+-- _cqp 	
+ 	|	+-- _registry
+ 	
+ Where:
+ 	- "lexsubcorpus" is the directory specified in "corpus.service.path" parameter in your "settings.properties" file
+ 	- "binaryCases" is the same directory created after running Writers/ToCQPFormatWriter.java
+ 	- "cqp" a directory that you should created and put in all the file in "lexSubData/data" directory created after running Writers/ToCQPFormatWriter.java
+ 	- "registry" is the same directory created after running Writers/ToCQPFormatWriter.java
+ 
+ * On the server:
+ 	- you should copy the "lexsubcorpus" directory to "/srv/ubyline", where you should place as well your "cwb" directory and "settings.properties" file.
+ 	
+ 	- the "settings.properties" file should look like:
+ 		database.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+		database.driver=com.mysql.jdbc.Driver
+		database.url=jdbc:mysql://localhost:3306/UBYLINE
+		database.username=khemakhem
+		database.password=RWLKnZ1r
+		engine.cqp.executable=/srv/ubyline/cwb-3.4.7/bin/cqp
+		engine.cqp.macrosLocation=classpath:/BNC_macros.txt
+		corpus.service.path=/srv/ubyline/lexsubcorpus/
+		corpus.service.info.file=corpus.properties
+		
+	- you should update the HOME variable in your copied "lexsub" file in the registry directory with the path to the cqp files ont he server.
+	The updated line should be: HOME /srv/ubyline/lexsubcorpus/LEXSUB/cqp
+	
+ 		
+     
+	
