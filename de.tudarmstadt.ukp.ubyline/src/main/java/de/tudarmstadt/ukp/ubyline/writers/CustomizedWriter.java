@@ -1,4 +1,4 @@
-package de.tudarmstadt.ukp.ubyline.Writers;
+package de.tudarmstadt.ukp.ubyline.writers;
 
 import java.util.List;
 

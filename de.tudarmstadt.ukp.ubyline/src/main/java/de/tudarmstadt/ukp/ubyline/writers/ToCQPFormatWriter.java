@@ -1,4 +1,4 @@
-package de.tudarmstadt.ukp.ubyline.Writers;
+package de.tudarmstadt.ukp.ubyline.writers;
 
 import static org.apache.uima.fit.factory.AnalysisEngineFactory.createEngineDescription;
 import static org.apache.uima.fit.factory.CollectionReaderFactory.createReader;
