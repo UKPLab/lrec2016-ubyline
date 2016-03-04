@@ -23,8 +23,8 @@ include::{include-dir}installation.adoc[]
 
 <<<
 
-include::{include-dir}internal.adoc[]
+include::{include-dir}data_preparation.adoc[]
 
 <<<
 
-include::{include-dir}settings.adoc[]
+include::{include-dir}deploying.adoc[]

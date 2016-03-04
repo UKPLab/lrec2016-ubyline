@@ -1,0 +1,28 @@
+[[sect_deploying]]
+== Deploying
+
+* copy the generated WAR from the target directory of Ubyline project to  /var/lib/tomcat7/webapps
+
+* On your terminal, switch to the  /etc/default directory
+
+* Open the tomcat7 file
+----
+$ sudo mcedit tomcat7
+----
+* add the following to the JAVA_OPTS variable
+----
+
+$  -Dubyline.home=”<path to ubyline home directory>”
+----
+
+* Restart tomcat
+----
+$ sudo service tomcat7 stop
+$ sudo service tomcat7 start
+----
+
+* Visualize the tomcat logs to see the war getting deployed, type this command in your terminal
+----
+$ tail -f /var/log/tomcat7/catalina.out
+----
+
