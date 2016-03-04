@@ -162,7 +162,6 @@
 		    <artifactId>wicket-jquery-ui-theme-uilightness</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-	
 
 		<!-- Provided dependencies -->
 		<dependency>
@@ -218,11 +217,7 @@
 			<artifactId>wicket-jquery-ui-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.googlecode.wicket-jquery-ui</groupId>
-			<artifactId>wicket-jquery-ui</artifactId>
-			<version>${wicket.version}</version>
-		</dependency>
+		
 
 
 		<dependency>
