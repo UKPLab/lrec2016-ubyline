@@ -1,3 +1,21 @@
+/*******************************************************************************
+ * Copyright 2015
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
+
 package de.tudarmstadt.ukp.ubyline.conversions;
 
 import java.io.BufferedReader;
@@ -23,6 +41,11 @@ import de.tudarmstadt.ukp.lmf.model.semantics.SynsetRelation;
 import de.tudarmstadt.ukp.lmf.transform.DBConfig;
 import de.tudarmstadt.ukp.ubyline.model.Project;
 
+/**
+ * 
+ * @author Mohamed Khemakhem
+ *
+ */
 public class UbyConversion
 {
 
@@ -40,31 +63,28 @@ public class UbyConversion
     private static String USERNAME;
     private static String UNASSIGNABLE_SENSE = "Unassignable";
     private static String PROPER_NAME_SENSE = "Proper name";
-    
+
     private static int COUNTERWORDS = 0;
- 
-  
 
     public static void main(String[] args)
         throws Exception
     {
-        //Get the required parameters from the "settings.properties" file
+        // Get the required parameters from the "settings.properties" file
         Properties p = new Properties();
         p.load(new FileReader(new File(System.getProperty("ubyline.home"), "settings.properties")));
-       
-      
-        UBY_URL =  p.getProperty("uby.url");
-        UBY_USER =  p.getProperty("database.username");
-        UBY_PASS =  p.getProperty("database.password");
-        DB_DRIVER =  p.getProperty("database.driver");         
-        DBConfig ubyConfig = new DBConfig(UBY_URL, DB_DRIVER, "mysql", UBY_USER, UBY_PASS,
-                false);
-        UBY = new Uby(ubyConfig);        
-        // The target DB (UBYLINE) properties are in the /ubyline/src/main/resources/hibernate.cfg.xml     
-       
-        
-        //Extract first the lemmas to annotate for the projectLemmaList required create the project table
-        LEMMATA_LIST =  p.getProperty("lemmataList.location");
+
+        UBY_URL = p.getProperty("uby.url");
+        UBY_USER = p.getProperty("database.username");
+        UBY_PASS = p.getProperty("database.password");
+        DB_DRIVER = p.getProperty("database.driver");
+        DBConfig ubyConfig = new DBConfig(UBY_URL, DB_DRIVER, "mysql", UBY_USER, UBY_PASS, false);
+        UBY = new Uby(ubyConfig);
+        // The target DB (UBYLINE) properties are in the
+        // /ubyline/src/main/resources/hibernate.cfg.xml
+
+        // Extract first the lemmas to annotate for the projectLemmaList required create the project
+        // table
+        LEMMATA_LIST = p.getProperty("lemmataList.location");
         String line = null;
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
@@ -72,18 +92,15 @@ public class UbyConversion
         try {
             fileReader = new FileReader(LEMMATA_LIST);
             bufferedReader = new BufferedReader(fileReader);
-           
+
             while ((line = bufferedReader.readLine()) != null) {
-               if(projectLemmas.equals("") )
-               {
-                   projectLemmas += line;
-               }
-               else
-               {
-                   projectLemmas += System.getProperty("line.separator")+line;
-               }
-                
-               
+                if (projectLemmas.equals("")) {
+                    projectLemmas += line;
+                }
+                else {
+                    projectLemmas += System.getProperty("line.separator") + line;
+                }
+
             }
         }
         catch (FileNotFoundException ex) {
@@ -98,9 +115,9 @@ public class UbyConversion
             }
         }
 
-        ConnectExtractToUbyline.addProject(PROJECT_NAME, PROJECT_DESCRIPTION,projectLemmas);
+        ConnectExtractToUbyline.addProject(PROJECT_NAME, PROJECT_DESCRIPTION, projectLemmas);
         PROJECT = ConnectExtractToUbyline.getProject(PROJECT_NAME);
-        
+
         // PROJECT.setName(PROJECT_NAME);
         // PROJECT.setDescription(PROJECT_DESCRIPTION);
         // PROJECT.setId(1);
@@ -112,16 +129,14 @@ public class UbyConversion
 
         // import by lexicon and lemma
 
-        //String fileName = "input/list.txt";
+        // String fileName = "input/list.txt";
 
-   
-        
         // This will reference one line at a time
-        //Extract the lemma list to import from uby
+        // Extract the lemma list to import from uby
         try {
             fileReader = new FileReader(LEMMATA_LIST);
             bufferedReader = new BufferedReader(fileReader);
-           
+
             while ((line = bufferedReader.readLine()) != null) {
                 int punkt = line.indexOf(".");
                 String lemma = line.substring(0, punkt);
@@ -188,8 +203,8 @@ public class UbyConversion
                 Collection<FormRepresentation> repForms = lexEntry.getLemma()
                         .getFormRepresentations();
                 for (FormRepresentation repForm : repForms) {
-                    generateSpecialSenses(repForm.getWrittenForm(), lexEntry.getPartOfSpeech()
-                            .toString());
+                    generateSpecialSenses(repForm.getWrittenForm(),
+                            lexEntry.getPartOfSpeech().toString());
 
                 }
             }
@@ -252,8 +267,8 @@ public class UbyConversion
                 // looks like 12452).
                 // This could be changed in other use case to Uby sense Id (Which looks like
                 // GN_Sense_12452)
-                ConnectExtractToUbyline.addLemma(lemma.getWrittenForm(), sense
-                        .getMonolingualExternalRefs().get(0).getExternalReference(), pos);
+                ConnectExtractToUbyline.addLemma(lemma.getWrittenForm(),
+                        sense.getMonolingualExternalRefs().get(0).getExternalReference(), pos);
             }
 
         }
@@ -326,8 +341,8 @@ public class UbyConversion
                     System.out.println("*" + targetLemma + "  is the " + senseRelationType
                             + "  in the  " + language + "   language");
                     ConnectExtractToUbyline.addSenseRelation(senseID, targetSense,
-                            targetSenseDefintion, targetLemma, senseRelationType, USERNAME,
-                            PROJECT, language);
+                            targetSenseDefintion, targetLemma, senseRelationType, USERNAME, PROJECT,
+                            language);
                 }
             }
         }
@@ -344,11 +359,10 @@ public class UbyConversion
                 targetLemma = equiv.getWrittenForm();
                 language = equiv.getLanguageIdentifier();
                 targetSense = null;
-                System.out.println("---- The equivalent of this Sense is {" + targetLemma
-                        + "} as {" + senseRelationType + "} in  {" + language + "} Language");
-                ConnectExtractToUbyline.addSenseRelation(senseID, targetSense,
-                        targetSenseDefintion, targetLemma, senseRelationType, USERNAME, PROJECT,
-                        language);
+                System.out.println("---- The equivalent of this Sense is {" + targetLemma + "} as {"
+                        + senseRelationType + "} in  {" + language + "} Language");
+                ConnectExtractToUbyline.addSenseRelation(senseID, targetSense, targetSenseDefintion,
+                        targetLemma, senseRelationType, USERNAME, PROJECT, language);
             }
 
         }
@@ -371,9 +385,8 @@ public class UbyConversion
                 senseRelationType = ERelNameSemantics.SYNONYM;
                 System.out
                         .println(targetLemma + " having as ID: " + targetSense + "  is a synonym");
-                ConnectExtractToUbyline.addSenseRelation(senseID, targetSense,
-                        targetSenseDefintion, targetLemma, senseRelationType, USERNAME, PROJECT,
-                        language);
+                ConnectExtractToUbyline.addSenseRelation(senseID, targetSense, targetSenseDefintion,
+                        targetLemma, senseRelationType, USERNAME, PROJECT, language);
             }
         }
 
@@ -386,8 +399,7 @@ public class UbyConversion
                 senseRelationType = synsetRel.getRelName();
                 Synset target_Synset = synsetRel.getTarget();
                 Collection<Sense> targetSynsetSenses = target_Synset.getSenses();
-                if ((ERelNameSemantics.SYNONYM.equals(senseRelationType))
-                        ) {
+                if ((ERelNameSemantics.SYNONYM.equals(senseRelationType))) {
                     for (Sense targetSynsetSense : targetSynsetSenses) {
                         targetSense = targetSynsetSense.getMonolingualExternalRefs().get(0)
                                 .getExternalReference();
@@ -402,12 +414,12 @@ public class UbyConversion
                                 PROJECT, language);
                     }
                 }
-                //For Hypo-Hypernyms
-                if (ERelNameSemantics.HYPERNYM.equals(senseRelationType)                        
+                // For Hypo-Hypernyms
+                if (ERelNameSemantics.HYPERNYM.equals(senseRelationType)
                         || (ERelNameSemantics.HYPONYM.equals(senseRelationType))
                         || (ERelNameSemantics.HYPERNYMINSTANCE.equals(senseRelationType))) {
-                    // Extract the  Hypo-Hypernym
-                    for (Sense targetSynsetSense : targetSynsetSenses) {                       
+                    // Extract the Hypo-Hypernym
+                    for (Sense targetSynsetSense : targetSynsetSenses) {
                         targetSense = targetSynsetSense.getMonolingualExternalRefs().get(0)
                                 .getExternalReference();
                         targetLemma = targetSynsetSense.getLexicalEntry().getLemmaForm();
@@ -418,20 +430,23 @@ public class UbyConversion
                         ConnectExtractToUbyline.addSenseRelation(senseID, targetSense,
                                 targetSenseDefintion, targetLemma, senseRelationType, USERNAME,
                                 PROJECT, language);
-                        // Extract the synonyms of the Hypo-Hypernym which are actually the senses in the same synset
+                        // Extract the synonyms of the Hypo-Hypernym which are actually the senses
+                        // in the same synset
                         for (Sense synonymSynsetSense : targetSynsetSenses) {
-                            if(targetSynsetSense!=synonymSynsetSense){
-                                String synonymSense = synonymSynsetSense.getMonolingualExternalRefs().get(0)
-                                        .getExternalReference();
+                            if (targetSynsetSense != synonymSynsetSense) {
+                                String synonymSense = synonymSynsetSense
+                                        .getMonolingualExternalRefs().get(0).getExternalReference();
                                 targetLemma = synonymSynsetSense.getLexicalEntry().getLemmaForm();
                                 targetSenseDefintion = synonymSynsetSense.getDefinitionText();
-                                System.out.println(synonymSynsetSense.getLexicalEntry().getLemmaForm()
-                                        + " having as ID: " + synonymSynsetSense.getId() + "  is a {"
-                                        + ERelNameSemantics.SYNONYM + "}");
-                                //targetSense here is going to be the sourceSense to be linked to the synonym Hypo-Hypernym 
+                                System.out
+                                        .println(synonymSynsetSense.getLexicalEntry().getLemmaForm()
+                                                + " having as ID: " + synonymSynsetSense.getId()
+                                                + "  is a {" + ERelNameSemantics.SYNONYM + "}");
+                                // targetSense here is going to be the sourceSense to be linked to
+                                // the synonym Hypo-Hypernym
                                 ConnectExtractToUbyline.addSenseRelation(targetSense, synonymSense,
-                                        targetSenseDefintion, targetLemma, ERelNameSemantics.SYNONYM, USERNAME,
-                                        PROJECT, language);
+                                        targetSenseDefintion, targetLemma,
+                                        ERelNameSemantics.SYNONYM, USERNAME, PROJECT, language);
                             }
                         }
                     }
@@ -458,7 +473,7 @@ public class UbyConversion
         // (ERelNameSemantics.HYPERNYMINSTANCE.equals(senseRelationType))||
         // (ERelNameSemantics.HYPONYM.equals(senseRelationType))) {
         // System.out.println("---- This Sense has {" + targetLemma + "} as {"
-        // + senseRelationType + "} :  having senseID =: " + targetSense
+        // + senseRelationType + "} : having senseID =: " + targetSense
         // + " defined as " + targetSenseDefintion);
         // ConnectExtractToUbyline.addSenseRelation(senseID, targetSense,
         // targetSenseDefintion, targetLemma, senseRelationType, USERNAME,
@@ -565,8 +580,8 @@ public class UbyConversion
                     }
                 }
                 else {
-                    ConnectExtractToUbyline.addRelatedForm(relationType, targetLELemma,
-                            targetLEPOS, sourceLemma, sourcePos, USERNAME, PROJECT);
+                    ConnectExtractToUbyline.addRelatedForm(relationType, targetLELemma, targetLEPOS,
+                            sourceLemma, sourcePos, USERNAME, PROJECT);
                     System.out.println(relatedForm.getTargetLexicalEntry().getLemma());
                     System.out.println("-----LE: " + targetLELemma + " targetLEPOS: " + targetLEPOS
                             + " relationType: " + relationType);

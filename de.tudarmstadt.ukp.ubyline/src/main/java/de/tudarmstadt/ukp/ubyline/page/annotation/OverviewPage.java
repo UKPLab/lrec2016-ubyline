@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright 2015
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package de.tudarmstadt.ukp.ubyline.page.annotation;
 
 import java.io.File;
@@ -44,6 +61,11 @@ import de.tudarmstadt.ukp.ubyline.model.Sense;
 import de.tudarmstadt.ukp.ubyline.model.SenseExampleLink;
 import de.tudarmstadt.ukp.ubyline.page.ApplicationPageBase;
 
+/**
+ * 
+ * @author Mohamed Khemakhem
+ *
+ */
 public class OverviewPage
     extends ApplicationPageBase
 {
@@ -56,10 +78,10 @@ public class OverviewPage
 
     @SpringBean(name = "projectDao")
     private ProjectDao projectDao;
-    
+
     @SpringBean(name = "corpusService")
     private static CorpusService corpusService;
-    
+
     @SpringBean(name = "senseExampleDao")
     private static SenseExampleDao senseExampleDao;
 
@@ -68,7 +90,7 @@ public class OverviewPage
 
     @SpringBean(name = "lemmaDao")
     private LemmaDaoImpl lemmaDao;
-    
+
     @SpringBean(name = "userLogDao")
     private UserLogDao userLogDao;
 
@@ -116,27 +138,27 @@ public class OverviewPage
             for (Lemma lemma : listLemmas) {
                 listSenseOfALemma.add(lemma.getSense());
             }
-            //Check if there is at least a sense link for this lemma 
+            // Check if there is at least a sense link for this lemma
             boolean linkedLemma = false;
-            for(int i=0; i<listSenseOfALemma.size();i++){
+            for (int i = 0; i < listSenseOfALemma.size(); i++) {
                 List<SenseExampleLink> listOfLinkedSenses = sEL.getLinks(listSenseOfALemma.get(i),
-                        userName);                
+                        userName);
                 if (listOfLinkedSenses.size() > 0) {
                     linkedLemma = true;
                     break;
 
                 }
-                
+
             }
-            
+
             if (linkedLemma) {
                 item.add(new Label("state", "Completed"));
-                
+
                 completedLemmas.put(lem, lemmas.get(lem));
             }
             else {
                 item.add(new Label("state", "Pending"));
-                
+
             }
 
         }
@@ -155,17 +177,18 @@ public class OverviewPage
         add(exportButton);
 
     }
-    private  List<Example> searchLemma(String alemma)
-            throws Exception
-        {
-            PreparedQuery query = corpusService.listEngines("LEXSUB").get(0)
-                    .createQuery("LEXSUB", "[lemma=\"" + alemma + "\"]");
 
-            List<Example> examples = query.execute();
-            // info(examples.size());
-            return examples;
-        }
- 
+    private List<Example> searchLemma(String alemma)
+        throws Exception
+    {
+        PreparedQuery query = corpusService.listEngines("LEXSUB").get(0).createQuery("LEXSUB",
+                "[lemma=\"" + alemma + "\"]");
+
+        List<Example> examples = query.execute();
+        // info(examples.size());
+        return examples;
+    }
+
     public File generateFile()
     {
         File tempFile = null;
@@ -212,8 +235,8 @@ public class OverviewPage
                 }
                 Map<String, String> listOfInstances = new HashMap<String, String>();
                 for (SenseExampleLink alink : listOfAllLinks) {
-                    listOfInstances.put(alink.getExample().getInstanceId(), alink.getExample()
-                            .getText());
+                    listOfInstances.put(alink.getExample().getInstanceId(),
+                            alink.getExample().getText());
                 }
                 for (String anInstance : listOfInstances.keySet()) {
                     // create instance element
@@ -231,11 +254,13 @@ public class OverviewPage
                             if (context.getElementsByTagName("head").getLength() == 0) {
                                 head = newdoc.createElement("head");
                                 String contextText = alink.getExample().getText();
-                                String firstPart = contextText.substring(0, alink.getExample()
-                                        .getBeginMatch() - alink.getExample().getBeginOffset() );
+                                String firstPart = contextText.substring(0,
+                                        alink.getExample().getBeginMatch()
+                                                - alink.getExample().getBeginOffset());
                                 context.appendChild(newdoc.createTextNode(firstPart));
-                                String targetWord = contextText.substring(alink.getExample()
-                                        .getBeginMatch() - alink.getExample().getBeginOffset(),
+                                String targetWord = contextText.substring(
+                                        alink.getExample().getBeginMatch()
+                                                - alink.getExample().getBeginOffset(),
                                         alink.getExample().getEndMatch()
                                                 - alink.getExample().getBeginOffset());
                                 head.appendChild(newdoc.createTextNode(targetWord));
@@ -243,10 +268,11 @@ public class OverviewPage
                                 attr.setValue(alink.getSense().getExternalId());
                                 head.setAttributeNode(attr);
                                 context.appendChild(head);
-                                String secondPart = contextText.substring(alink.getExample()
-                                        .getEndMatch() - alink.getExample().getBeginOffset(), alink
-                                        .getExample().getEndOffset()
-                                        - alink.getExample().getBeginOffset());
+                                String secondPart = contextText.substring(
+                                        alink.getExample().getEndMatch()
+                                                - alink.getExample().getBeginOffset(),
+                                        alink.getExample().getEndOffset()
+                                                - alink.getExample().getBeginOffset());
                                 context.appendChild(newdoc.createTextNode(secondPart));
 
                             }
@@ -259,8 +285,8 @@ public class OverviewPage
 
                             }
                         }
-                        listOfInstances.put(alink.getExample().getInstanceId(), alink.getExample()
-                                .getText());
+                        listOfInstances.put(alink.getExample().getInstanceId(),
+                                alink.getExample().getText());
                     }
                     instance.appendChild(context);
                 }

@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * Copyright 2015
+ * Ubiquitous Knowledge Processing (UKP) Lab
+ * Technische Universität Darmstadt
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ******************************************************************************/
 package de.tudarmstadt.ukp.ubyline.page.annotation;
 
 import java.io.Serializable;
@@ -51,6 +68,11 @@ import de.tudarmstadt.ukp.ubyline.model.SenseRelation;
 import de.tudarmstadt.ukp.ubyline.model.UserLog;
 import de.tudarmstadt.ukp.ubyline.page.ApplicationPageBase;
 
+/**
+ * 
+ * @author Mohamed Khemakhem
+ * @author Richard Eckart De Castilho
+ */
 public class SenseExampleLinking
     extends ApplicationPageBase
 {
@@ -361,8 +383,8 @@ public class SenseExampleLinking
             for (Item senseListItem : sensesList) {
                 if (senseListItem.getType().equals(TYPE_EXAMPLE)) {
                     if ((senseListItem.getCorpusId().equals(exampleListItem.getCorpusId()))
-                            && (senseListItem.getDocumentId().equals(exampleListItem
-                                    .getDocumentId()))
+                            && (senseListItem.getDocumentId()
+                                    .equals(exampleListItem.getDocumentId()))
                             && (senseListItem.getBeginOff() == exampleListItem.getBeginOff())) {
                         currentExampleIsLinked = true;
                         break;
@@ -370,9 +392,8 @@ public class SenseExampleLinking
                 }
             }
             if (!currentExampleIsLinked) {
-                unlinkedExamples = unlinkedExamples
-                        + exampleListItem.getInstanceId().substring(
-                                exampleListItem.getInstanceId().indexOf('_') + 1) + ", ";
+                unlinkedExamples = unlinkedExamples + exampleListItem.getInstanceId()
+                        .substring(exampleListItem.getInstanceId().indexOf('_') + 1) + ", ";
             }
         }
 
@@ -395,8 +416,8 @@ public class SenseExampleLinking
                     for (SenseExampleLink l : senseLinkstoDelete) {
                         writeLog(
                                 Long.toString(l.getSense().getId()) + " "
-                                        + Long.toString(l.getExample().getId()), ACTION_REMOVE,
-                                date);
+                                        + Long.toString(l.getExample().getId()),
+                                ACTION_REMOVE, date);
                         sEL.delete(l);
                     }
                 }
@@ -443,8 +464,7 @@ public class SenseExampleLinking
                     newExpLink.setProject(project);
                     newExpLink.setExample(exp);
                     newExpLink.setSense(currentSense);
-                    writeLog(
-                            Long.toString(currentSense.getId()) + " " + Long.toString(exp.getId()),
+                    writeLog(Long.toString(currentSense.getId()) + " " + Long.toString(exp.getId()),
                             ACTION_ADD, item.getDate());
                     sEL.create(newExpLink);
                     // refresh the item by replacing -1 with the generated ID
@@ -461,7 +481,8 @@ public class SenseExampleLinking
                         // + currentSense.getExternalId() + "]");
                         writeLog(
                                 Long.toString(currentSense.getId()) + " "
-                                        + Long.toString(exp.getId()), ACTION_UPDATE, item.getDate());
+                                        + Long.toString(exp.getId()),
+                                ACTION_UPDATE, item.getDate());
                         expLink.setSense(currentSense);
                     }
 
@@ -477,9 +498,8 @@ public class SenseExampleLinking
             for (SenseExampleLink l : senseLinkstoDelete) {
                 // info("Deleted link [" + l.getExample().getInstanceId() + "] -> ["
                 // + l.getSense().getExternalId() + "]");
-                writeLog(
-                        Long.toString(l.getSense().getId()) + " "
-                                + Long.toString(l.getExample().getId()), ACTION_REMOVE, date);
+                writeLog(Long.toString(l.getSense().getId()) + " "
+                        + Long.toString(l.getExample().getId()), ACTION_REMOVE, date);
                 sEL.delete(l);
             }
         }
@@ -522,23 +542,23 @@ public class SenseExampleLinking
                     item.add(new Label("icon", iconLabel));
                     item.add(new AttributeModifier("class", "exampleItemStyle"));
 
-                    boldText = new StringBuilder(boldText).insert(
-                            item.getModelObject().getEndMatch()
-                                    - item.getModelObject().getBeginOff(), "</b>").toString();
-                    
+                    boldText = new StringBuilder(boldText)
+                            .insert(item.getModelObject().getEndMatch()
+                                    - item.getModelObject().getBeginOff(), "</b>")
+                            .toString();
+
                     // Check if the target is the first word in the example text
-                  
-                        boldText = new StringBuilder(boldText).insert(
-                                item.getModelObject().getBeginMatch()
-                                        - item.getModelObject().getBeginOff(), "<b>")
-                                .toString();
-                   
+
+                    boldText = new StringBuilder(boldText)
+                            .insert(item.getModelObject().getBeginMatch()
+                                    - item.getModelObject().getBeginOff(), "<b>")
+                            .toString();
 
                 }
                 else {
 
-                    List<SenseRelation> listSenseRealtion = senseRelationDao.getList(senseDao
-                            .getSense(item.getModelObject().getId()));
+                    List<SenseRelation> listSenseRealtion = senseRelationDao
+                            .getList(senseDao.getSense(item.getModelObject().getId()));
                     Map<Sense, String> hypernymSenses = new HashMap<Sense, String>();
                     Map<Sense, String> hyponymSenses = new HashMap<Sense, String>();
 
@@ -579,10 +599,10 @@ public class SenseExampleLinking
                                 for (SenseRelation senseRelHyper : listSenseRealtionOfHypernym) {
                                     // if the current hypernym has a synonym and the synonym is not
                                     // visited yet, get the synonym lemma
-                                    if ((ERelNameSemantics.SYNONYM.equals(senseRelHyper
-                                            .getRelationType()))
-                                            || (!(assignedHypernyms.contains(senseRelHyper
-                                                    .getTargetSense())))) {
+                                    if ((ERelNameSemantics.SYNONYM
+                                            .equals(senseRelHyper.getRelationType()))
+                                            || (!(assignedHypernyms
+                                                    .contains(senseRelHyper.getTargetSense())))) {
                                         assignedHypernyms.add(senseRelHyper.getTargetSense());
                                         hypernym = hypernym + ", " + senseRelHyper.getTargetLemma();
                                     }
@@ -606,10 +626,10 @@ public class SenseExampleLinking
                                 for (SenseRelation senseRelHypo : listSenseRealtionOfHyponyms) {
                                     // if the current hypernym has a synonym and the synonym is not
                                     // visited yet, get the synonym lemma
-                                    if ((ERelNameSemantics.SYNONYM.equals(senseRelHypo
-                                            .getRelationType()))
-                                            || (!(assignedHyponyms.contains(senseRelHypo
-                                                    .getTargetSense())))) {
+                                    if ((ERelNameSemantics.SYNONYM
+                                            .equals(senseRelHypo.getRelationType()))
+                                            || (!(assignedHyponyms
+                                                    .contains(senseRelHypo.getTargetSense())))) {
                                         assignedHyponyms.add(senseRelHypo.getTargetSense());
                                         hyponym = hyponym + ", " + senseRelHypo.getTargetLemma();
                                     }
@@ -652,8 +672,8 @@ public class SenseExampleLinking
     private List<Example> searchLemma(String alemma)
         throws Exception
     {
-        PreparedQuery query = corpusService.listEngines("LEXSUB").get(0)
-                .createQuery("LEXSUB", "[lemma=\"" + alemma + "\"]");
+        PreparedQuery query = corpusService.listEngines("LEXSUB").get(0).createQuery("LEXSUB",
+                "[lemma=\"" + alemma + "\"]");
 
         List<Example> examples = query.execute();
         // info(examples.size());
@@ -671,8 +691,8 @@ public class SenseExampleLinking
                         0, 0, sen.getExternalId(), 0, 0, null));
             }
             else {
-                items.add(new Item(sen.getId(), TYPE_SENSE, "", null, null, null, 0, 0, sen
-                        .getExternalId(), 0, 0, null));
+                items.add(new Item(sen.getId(), TYPE_SENSE, "", null, null, null, 0, 0,
+                        sen.getExternalId(), 0, 0, null));
             }
 
             String userName = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -775,9 +795,9 @@ public class SenseExampleLinking
         List<Item> items = new ArrayList<>();
 
         for (Example exp : aExamples) {
-            items.add(new Item(-1, TYPE_EXAMPLE, exp.getText(), exp.getInstanceId(), exp
-                    .getDocumentId(), exp.getCorpusId(), exp.getBeginOffset(), exp.getEndOffset(),
-                    null, exp.getBeginMatch(), exp.getEndMatch(), null));
+            items.add(new Item(-1, TYPE_EXAMPLE, exp.getText(), exp.getInstanceId(),
+                    exp.getDocumentId(), exp.getCorpusId(), exp.getBeginOffset(),
+                    exp.getEndOffset(), null, exp.getBeginMatch(), exp.getEndMatch(), null));
         }
 
         return items;

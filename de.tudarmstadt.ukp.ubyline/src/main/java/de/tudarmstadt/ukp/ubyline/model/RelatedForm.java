@@ -1,14 +1,14 @@
 /*******************************************************************************
- * Copyright 2012
- * Ubiquitous Knowledge Processing (UKP) Lab and FG Language Technology
+ * Copyright 2015
+ * Ubiquitous Knowledge Processing (UKP) Lab
  * Technische Universität Darmstadt
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,6 @@
  ******************************************************************************/
 package de.tudarmstadt.ukp.ubyline.model;
 
-/**
- * 
- * @author Mohamed Khemakhem
- *
- */
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -33,9 +28,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+/**
+ * 
+ * @author Mohamed Khemakhem
+ *
+ */
 @Entity
-@Table(name = "related_form", uniqueConstraints = { @UniqueConstraint(columnNames = { "lemma",
-        "pos", "username", "sense", "relation_type" }) })
+@Table(name = "related_form", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "lemma", "pos", "username", "sense", "relation_type" }) })
 public class RelatedForm
     implements Serializable
 {

@@ -11,6 +11,12 @@ import com.googlecode.wicket.jquery.core.utils.ListUtils;
 
 import de.tudarmstadt.ukp.dkpro.core.testing.DkproTestContext;
 
+/**
+ * 
+ * @author Mohamed Khemakhem
+ * @author Richard Eckart de Castilho
+ *
+ */
 public class SenseExampleLinkingTest
 {
     @Test
@@ -18,7 +24,8 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
 
         Item newItem = new Item(-1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10,
                 20, null);
@@ -37,7 +44,8 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
 
         Item newItem = new Item(-1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10,
                 20, null);
@@ -57,12 +65,17 @@ public class SenseExampleLinkingTest
         List<Item> items = new ArrayList<>();
 
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72150", 0, 0, null));
-        items.add(new Item(1, "example", "Example 3", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 3", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
         // Add newItem here -> target index = 4
-        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(5, "sense", "Sense 4", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
+        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(5, "sense", "Sense 4", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
 
         Item newItem = new Item(-1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10,
                 20, null);
@@ -100,9 +113,12 @@ public class SenseExampleLinkingTest
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
         // Add newItem here -> target index = 1
         items.add(new Item(0, "sense", "Sense 2", null, null, null, 0, 0, "72150", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
 
         Item newItem = new Item(-1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10,
                 20, null);
@@ -120,9 +136,12 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
         // Move item(1) here -> target index = 3
 
         Item newItem = items.get(1);
@@ -142,8 +161,10 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
         // Move item(1) here -> target index = 2
 
         Item newItem = items.get(1);
@@ -163,10 +184,13 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
         // Move item(1) here -> target index = 1
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
 
         // Take first example and move it to position 2
         Item newItem = items.get(1);
@@ -186,11 +210,15 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "example", "Example 2", null, "doc1", "col1", 20, 30, null, 20, 30, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "example", "Example 2", null, "doc1", "col1", 20, 30, null, 20, 30,
+                null));
         // Move item(1) here -> target index = 2
-        items.add(new Item(3, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(4, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(3, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(4, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
 
         Item newItem = items.get(1);
         int index = 2;
@@ -209,10 +237,13 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
         // Move item(3) here -> target index = 2
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
 
         Item newItem = items.get(3);
         int index = 2;
@@ -231,10 +262,14 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0,
+                null));
         // Move item(1) here -> target index = 4
 
         Item newItem = items.get(1);
@@ -255,10 +290,14 @@ public class SenseExampleLinkingTest
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
         // Move item(3) here -> target index = 1
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0,
+                null));
 
         Item newItem = items.get(3);
         int index = 1;
@@ -278,9 +317,12 @@ public class SenseExampleLinkingTest
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
         // Move item(3) here -> target index = 1
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0, null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0,
+                null));
 
         Item newItem = items.get(3);
         int index = 1;
@@ -299,11 +341,15 @@ public class SenseExampleLinkingTest
     {
         List<Item> items = new ArrayList<>();
         items.add(new Item(0, "sense", "Sense 1", null, null, null, 0, 0, "72149", 0, 0, null));
-        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
+        items.add(new Item(1, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
         // Move item(3) here -> target index = 2
-        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0, null));
-        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20, null));
-        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0, null));
+        items.add(new Item(2, "sense", "Sense 2", null, null, null, 0, 0, "Chronologie_U", 0, 0,
+                null));
+        items.add(new Item(3, "example", "Example 1", null, "doc1", "col1", 10, 20, null, 10, 20,
+                null));
+        items.add(new Item(4, "sense", "Sense 3", null, null, null, 0, 0, "Chronologie_P", 0, 0,
+                null));
 
         Item newItem = items.get(3);
         int index = 2;
