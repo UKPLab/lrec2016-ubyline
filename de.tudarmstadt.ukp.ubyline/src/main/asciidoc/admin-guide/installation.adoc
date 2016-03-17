@@ -13,14 +13,15 @@ Installation of Ubyline requires some prerequisites, a Uby lexicon and some conf
 It may also work on other versions with some modifications, but we do not test this.
 
 === Packaging
+This step is mandatory to generate the JARs and a WAR required for the data preparation and deployment of the webapp. UbyLine assumes the existence of a Uby lexicon to build its sense inventory
 
 ==== Ubycrete
 
 To create a Uby lexicon, *ubycreate* tool should be used. In this guide, we use ubycreate to generate a Uby lexicon from a GermaNet XML dump
 
 * Download the project from the GitHub repository: https://github.com/dkpro/dkpro-uby/tree/master/de.tudarmstadt.ukp.uby.ubycreate-gpl
-* Navigate to the root directory of the project
-* On your terminal, run the following command to generate the JAR file of the project
+* From your terminal, navigate to the root directory of the project
+* Run the following command to generate the JAR file of the project
 ----
 $ mvn package
 ----
@@ -31,8 +32,8 @@ $ mvn package
 Ubyline is a web application but has also embedded module for pre-processing data. To use all Ubyline functionalities, we need to generate a WAR and JAR files
 
 * Download the project from the GitHub repository
-* Navigate to the root directory of the project
-* On your terminal, run the following command
+* From your terminal, navigate to the root directory of the project
+* Run the following command
 ----
 $ mvn package
 ----
@@ -44,4 +45,4 @@ A configuration file should be created for Ubyline to extract all the necessary 
 
 * Create the file using any text editor and name it "settings.properties"
 
-* Save the file under a directory of your choice. We will consider this as Ubyline home directory
+* Save the file under a directory of your choice. For the following instructions of this guide, we will consider this directory as Ubyline home directory

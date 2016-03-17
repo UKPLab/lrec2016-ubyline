@@ -17,7 +17,7 @@
 = UbyLine Admin Guide
 :Author: The UbyLine Team
 
-This document is targets administrators of the UbyLine tool.
+This document explains the necessary setup for the UbyLine tool.
 
 include::{include-dir}installation.adoc[]
 

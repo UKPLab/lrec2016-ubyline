@@ -1,7 +1,9 @@
 [[sect_data_preparation]]
 == Data Preparation
+The following instructions are  based on the generated JARs in the previous steps
 
 === Sense Inventory Generation
+To Generate UbyLine sense Inventory, two steps are necessary
 
 ==== Uby Lexicon Creation
 
@@ -16,8 +18,7 @@ mysql> CREATE DATABASE UBY_GN;
 
 * Copy the GermaNet dump to import to the target directory of the *ubycreate* project
 
-* Navigate to the target directory of the *ubycreate* project
-
+* From your terminal, navigate to the target directory of the *ubycreate* project
 
 * Run the already generated jar using the Germanet dump as the source argument and the name of the created UBY_GN database as the target argument
 ----
@@ -71,7 +72,7 @@ For the sake of simplicity, we merged the "train.xml" and "test.xml" into one fi
 
 * Copy the "complete-dataset.xml" in Ubyline home directory
 
-* add to settings.properties the dataset parameters as in the following lines:
+* Add to settings.properties the dataset parameters as in the following lines:
 ----
   dataset.path=<path to the dataset>
   dataset.name=complete-dataset.xml
@@ -82,7 +83,7 @@ For the sake of simplicity, we merged the "train.xml" and "test.xml" into one fi
 
 * Extract the content of the downloaded distribution to the Ubyline home directory
 
-* add to settings.properties file the cqp parameters
+* Add to settings.properties file the cqp parameters
 ----
   engine.cqp.home=<path to ubyline home directory>/cwb-3.0.0-linux-x86_64/bin
   engine.cqp.executable=<path to ubyline home directory>/cwb-3.0.0-linux-x86_64/bin/cqp
@@ -90,7 +91,7 @@ For the sake of simplicity, we merged the "train.xml" and "test.xml" into one fi
 
 * On your terminal, switch to the target directory of Ubyline project
 
-* Run the Ubyline jar and provide the path to your Ubyline home dirctory to read the "settings.properties" file
+* Run the Ubyline jar and provide the path to your Ubyline home dirctory to read the *settings.properties* file
 ----
 $ java -Dubyline.home="<path to ubyline home directory>" -cp dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar de.tudarmstadt.ukp.ubyline.Writers.ToCQPFormatWriter
 ----
@@ -111,13 +112,13 @@ HOME the path_to_the_cqp_directory
  	|	+-- _binaryCases
  	|	+-- _LEXSUB
  	| 		+-- corpus.properties
- 	|		+-- _cqp
+ 	|		+-- cqp
  	|	+-- _registry
 ----
 
 * Move the whole *lexsubcorpus* directory to Ubyline home directory
 
-* Indicate the path to your lexsubcorpus directory in the settings.properties files for the variable corpus.service.path
+* Indicate the path to your lexsubcorpus directory in the *settings.properties* file for the variable corpus.service.path
 ----
 corpus.service.path=<path to the lexsubcorpus directory>
 ----

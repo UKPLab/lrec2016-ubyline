@@ -1,7 +1,9 @@
 [[sect_deploying]]
 == Deploying
 
-* copy the generated WAR from the target directory of Ubyline project to  /var/lib/tomcat7/webapps
+The generated WAR, in the packaging step, needs to be deployed as follows
+
+* Copy the WAR from the target directory of Ubyline project to  /var/lib/tomcat7/webapps
 
 * On your terminal, switch to the  /etc/default directory
 
@@ -9,7 +11,7 @@
 ----
 $ sudo mcedit tomcat7
 ----
-* add the following to the JAVA_OPTS variable
+* Add the following to the JAVA_OPTS variable
 ----
 
 $  -Dubyline.home=”<path to ubyline home directory>”
