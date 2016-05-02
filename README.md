@@ -1,6 +1,6 @@
 # Ubyline
 
-Project description here.
+Ubyline is an Apache-licensed, web-based sense annotation tool whose user interface is optimized for lexical sample data.  Ubyline supports a wide range of sense inventories in several languages, including WordNet and GermaNet.
 
 Please use the following citation:
 
