@@ -1,56 +1,30 @@
 [[sect_data_preparation]]
 == Data Preparation
-The following instructions are  based on the generated JARs in the previous steps
 
 === Sense Inventory Generation
-To Generate UbyLine sense Inventory, two steps are necessary
+To prepare the sense inventory used by UbyLine sense inventory, you must first create a Uby lexicon for it and then convert this Uby lexicon for use with Ubyline.  The following sections assume you will be using GermaNet 9.0 as the sense inventory, and that you have already obtained a copy of the original GermaNet 9.0 distribution.
 
-==== Uby Lexicon Creation
+==== Uby lexicon creation
 
-* login to MySQL
+* Log into MySQL and create a database for the Uby lexicon:
 ----
 $ mysql -u <user> -p <password>
-----
-* Create a database for the uby lexicon
-----
 mysql> CREATE DATABASE UBY_GN;
 ----
+* Navigate to the target directory of the Ubycreate project and copy the GermaNet 9.0 XML into a subdirectory of it:
+----
+$ cd /path/to/dkpro-uby/de.tudarmstadt.ukp.uby.ubycreate-gpl/target
+$ cp -pr /path/to/GermaNet_9.0/GN_V90 .
+----
+* Run the Ubycreate JAR, specifying the GermaNet directory as the source and the name of the Uby database as the target:
+----
+$  java -jar de.tudarmstadt.ukp.uby.ubycreate-gpl-0.8.0-SNAPSHOT-standalone.jar --target mysql:<user>:<password>@localhost:3306/UBY_GN --source germanet:GN_V90/GN_V90_XML
+----
+* The GermaNet data will be transformed into a Uby lexicon in the UBY_GN database.
 
-* Copy the GermaNet dump to import to the target directory of the *ubycreate* project
+==== Uby2Ubyline conversion
 
-* From your terminal, navigate to the target directory of the *ubycreate* project
-
-* Run the already generated jar using the Germanet dump as the source argument and the name of the created UBY_GN database as the target argument
-----
-$  java -jar ubycreate-gpl-0.8.0-SNAPSHOT-standalone.jar --target mysql:root:pass@localhost:3306/UBY_GN --source germanet:GN_V70/GN_V70_XML
-----
-* The GermaNet data should be transformed now to a Uby lexicon in the UBY_GN database
-
-==== Uby2Ubyline Conversion
-
-* login to MySQL
-----
-$ mysql -u <user> -p <password>
-----
-* Create a database for the Ubyline
-----
-mysql> CREATE DATABASE UBYLINE;
-----
-* Copy the following lines to the "settings.properties" file  and replace the required parameters with your specific choice
-----
-database.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
-database.driver=com.mysql.jdbc.Driver
-database.url=jdbc:mysql://localhost:3306/UBYLINE
-database.username=<user>
-database.password=<your DB password>
-uby.url=localhost/UBY_GN_9
-lemmataList.location=<path to the lemma list>/list.txt
-----
-
-* The last copied line indicates to Ubyline the path to the list of lemmas to extract from Uby to Ubyline.
-A conversion of the whole Uby lexicon is also possible but this requires a small change in the code.
-The list should contain the lexical entries in Uby with its corresponding POS.
-Using a different appellation for POS would cause errors during the conversion process. The list should have the following format:
+* For performance reasons, it is desirable to create a restricted list of GermaNet lemmas to convert from Uby to Ubyline.  (A conversion of the entire Uby lexicon is also possible, but this requires a small change in the Ubyline source code.)  The list should contain the Uby lexical entries of interest, including their corresponding part of speech.  The list should have the following format:
 ----
 Abbuchung.nounCommon
 ablöschen.verb
@@ -58,55 +32,55 @@ abmalen.verb
 abstürzen.verb
 abwechselnd.adjective
 ----
-
-* On your terminal, switch to the target directory of Ubyline project
-
-* Run the Ubyline jar and provide the path to your Ubyline home dirctory to read the "settings.properties" file
+* Login to MySQL and create a database for Ubyline:
 ----
-  $  java -Dubyline.home="<path to ubyline home direectory>" -jar dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar
+$ mysql -u <user> -p <password>
+mysql> CREATE DATABASE UBYLINE;
+----
+* Copy the following lines to your +settings.properties+ file, replacing the parameter values as appropriate:
+----
+database.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+database.driver=com.mysql.jdbc.Driver
+database.url=jdbc:mysql://localhost:3306/UBYLINE
+database.username=<user>
+database.password=<password>
+uby.url=localhost/UBY_GN
+lemmataList.location=/path/to/lemmalist.txt
+----
+* You can now run the conversion tool:
+----
+$ java -Dubyline.home=/path/to/ubyline/home/directory -jar /path/to/lrec2016-ubyline/de.tudarmstadt.ukp.ubyline/target/dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar
 ----
 
-=== Corpus Pre-Processing
-In this documentation we use the lexical substitution data set described in Cholakov et al., 2013. The data set could downloaded from https://sites.google.com/site/germeval2015/data-sets.
-For the sake of simplicity, we merged the "train.xml" and "test.xml" into one file "complete-dataset.xml".
+=== Corpus pre-processing
 
-* Copy the "complete-dataset.xml" in Ubyline home directory
+Ubyline expects to read its corpus in a SemEval-like format, as documented.  In this documentation we use the lexical substitution data set described in the following paper:
 
-* Add to settings.properties the dataset parameters as in the following lines:
+* Tristan Miller, Darina Benikova, and Sallam Abualhaija. https://sites.google.com/site/germeval2015/program/2015_GermEval_LexSub.pdf?attredirects=0&d=1[GermEval 2015: LexSub – A shared task for German-language lexical substitution.] In _Proceedings of GermEval 2015: LexSub_, pages 1–9, September 2015.
+
+The data set can be downloaded from https://sites.google.com/site/germeval2015/data-sets[the GermEval 2015: LexSub website].  For the sake of simplicity, we manually merge the +train.xml+ and +test.xml+ files into an omnibus +complete-dataset.xml+ file.
+
+* Copy the +complete-dataset.xml+ into your Ubyline home directory.
+* Add to +settings.properties+ the dataset parameters and the path to CWB's +cqp+ executable, as in the following lines:
 ----
-  dataset.path=<path to the dataset>
+  dataset.path=/path/to/ubyline/home/directory
   dataset.name=complete-dataset.xml
+  engine.cqp.home=/path/to/cwb-3.0.0-linux-x86_64/bin
+  engine.cqp.executable=/path/to/cwb-3.0.0-linux-x86_64/bin/cqp
 ----
-
-
-* Download the binary distribution of the CWB from: http://cwb.sourceforge.net/download.php. The binaries contain files required for writing and reading data in cqp format
-
-* Extract the content of the downloaded distribution to the Ubyline home directory
-
-* Add to settings.properties file the cqp parameters
+* Run Ubyline from the Ubyline project directory:
 ----
-  engine.cqp.home=<path to ubyline home directory>/cwb-3.0.0-linux-x86_64/bin
-  engine.cqp.executable=<path to ubyline home directory>/cwb-3.0.0-linux-x86_64/bin/cqp
+$ java -Dubyline.home=/path/to/ubyline/home/directory -cp /path/to/dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar de.tudarmstadt.ukp.ubyline.Writers.ToCQPFormatWriter
 ----
-
-* On your terminal, switch to the target directory of Ubyline project
-
-* Run the Ubyline jar and provide the path to your Ubyline home dirctory to read the *settings.properties* file
-----
-$ java -Dubyline.home="<path to ubyline home directory>" -cp dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar de.tudarmstadt.ukp.ubyline.Writers.ToCQPFormatWriter
-----
-* A directory with the name *target* will be created. It contains a directory with the name *lexsubcorpus* which needs a restructuring
-
-* Change the name of the directory in the the *LEXSUB* directory from “data” to “cqp”
-
-* Change the location of the registry directory to be in the same level as *LEXSUB* and *binaryCases*
-
-* Change the Home variable in the *lexsub* file in the *registry* directory to the path to the cqp directory as following:
+* A directory with the name +target+ will be created. It contains a directory with the name +lexsubcorpus+ which needs restructuring:
+** Change the name of the directory in the the *LEXSUB* directory from “data” to “cqp”
+** Change the location of the registry directory to be in the same level as +LEXSUB+ and +binaryCases+
+** Change the +Home+ variable in the +lexsub+ file in the +registry+ directory to the path to the cqp directory as following:
 ----
 # path to binary data files
 HOME the path_to_the_cqp_directory
 ----
-* The *lexsubcorpus* directory should have te following structure:
+* The +lexsubcorpus+ directory should have te following structure:
 ----
  	+-- _lexsubcorpus
  	|	+-- _binaryCases
@@ -115,10 +89,8 @@ HOME the path_to_the_cqp_directory
  	|		+-- cqp
  	|	+-- _registry
 ----
-
-* Move the whole *lexsubcorpus* directory to Ubyline home directory
-
-* Indicate the path to your lexsubcorpus directory in the *settings.properties* file for the variable corpus.service.path
+* Move the whole +lexsubcorpus+ directory to Ubyline home directory
+* Indicate the path to your +lexsubcorpus+ directory in the +settings.properties+ file for the variable +corpus.service.path+:
 ----
 corpus.service.path=<path to the lexsubcorpus directory>
 ----

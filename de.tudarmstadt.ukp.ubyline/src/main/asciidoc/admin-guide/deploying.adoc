@@ -1,30 +1,12 @@
 [[sect_deploying]]
 == Deploying
 
-The generated WAR, in the packaging step, needs to be deployed as follows
+The WAR generated in the packaging step should be deployed as follows:
 
-* Copy the WAR from the target directory of Ubyline project to  /var/lib/tomcat7/webapps
-
-* On your terminal, switch to the  /etc/default directory
-
-* Open the tomcat7 file
+* Copy the WAR from the target directory of Ubyline project to  your Tomcat webapps directory (e.g., +/var/lib/tomcat7/webapps+)
+* Open your TomCat configuration file (e.g., +/etc/default/tomcat7+) and add the following to the JAVA_OPTS variable:
 ----
-$ sudo mcedit tomcat7
+-Dubyline.home=/path/to/ubyline/home/directory
 ----
-* Add the following to the JAVA_OPTS variable
-----
-
-$  -Dubyline.home=”<path to ubyline home directory>”
-----
-
-* Restart tomcat
-----
-$ sudo service tomcat7 stop
-$ sudo service tomcat7 start
-----
-
-* Visualize the tomcat logs to see the war getting deployed, type this command in your terminal
-----
-$ tail -f /var/log/tomcat7/catalina.out
-----
-
+* Restart Tomcat.
+* Check the Tomcat logs (e.g., +/var/log/tomcat7/catalina.out+) to verify that the WAR is getting deployed.
