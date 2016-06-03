@@ -73,7 +73,7 @@ The data set can be downloaded from https://sites.google.com/site/germeval2015/d
 $ java -Dubyline.home=/path/to/ubyline/home/directory -cp /path/to/dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar de.tudarmstadt.ukp.ubyline.Writers.ToCQPFormatWriter
 ----
 * A directory with the name +target+ will be created. It contains a directory with the name +lexsubcorpus+ which needs restructuring:
-** Change the name of the directory in the the *LEXSUB* directory from “data” to “cqp”
+** Change the name of the directory in the the +LEXSUB+ directory from +data+ to +cqp+
 ** Change the location of the registry directory to be in the same level as +LEXSUB+ and +binaryCases+
 ** Change the +Home+ variable in the +lexsub+ file in the +registry+ directory to the path to the cqp directory as following:
 ----

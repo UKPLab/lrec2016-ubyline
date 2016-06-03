@@ -44,6 +44,6 @@ $ mvn package
 
 You must create a dedicated "home directory" for your Ubyline installation.  This directory will contain (among other things) a configuration file named +settings.properties+.  For now, simply create an empty configuration file in a directory of your choice:
 ----
-* mkdir -p /path/to/ubyline/home/directory
-* touch /path/to/ubyline/home/directory/settings.properties
+$ mkdir -p /path/to/ubyline/home/directory
+$ touch /path/to/ubyline/home/directory/settings.properties
 ----
