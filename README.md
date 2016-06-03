@@ -36,15 +36,15 @@ Don't hesitate to send us an e-mail or report an issue, if something is broken (
 
 Follow the link for the documentation of Ubyline configuration: https://zoidberg.ukp.informatik.tu-darmstadt.de/jenkins/job/Ubyline-Lrec2016%20Doc/de.tudarmstadt.ukp.ubyline$dkpro-uby-ubyline/doclinks/1/
 
-<!--
-
 ## Requirements
 
-* Java x.x and higher
-* Maven
-* 64-bit Linux versions
-* Windows x
-* XX GB RAM
+* Java 7
+* Apache Maven 3.3
+* Apache Tomcat 7
+* MySQL 5.5
+* CWB 3.0 from the IMS Open Corpus Workbench
+
+<!--
 
 ## Installation
 * Configure the home folder of the web application in the Eclipse run configuration of Tomcat, e.g.:

@@ -5,7 +5,7 @@ Installation of Ubyline requires some previously installed dependencies, a Uby l
 === Prerequisites
 
 * This guide assumes that you are using the following software and resources:
- 	* Ubuntu 14.04
+	* Ubuntu 14.04
 	* MySQL 5.5
 	* Java 7
 	* Apache Tomcat 7
