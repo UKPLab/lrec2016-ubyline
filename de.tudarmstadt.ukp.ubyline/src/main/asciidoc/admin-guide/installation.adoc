@@ -28,7 +28,7 @@ $ git clone https://github.com/dkpro/dkpro-uby.git
 $ cd dkpro-uby/de.tudarmstadt.ukp.uby.ubycreate-gpl
 $ mvn package
 ----
-* A file named something like +de.tudarmstadt.ukp.uby.ubycreate-gpl-0.8.0-SNAPSHOT-standalone.jar+ will be generated in the target directory of the project.
+* A file named something like `de.tudarmstadt.ukp.uby.ubycreate-gpl-0.8.0-SNAPSHOT-standalone.jar` will be generated in the target directory of the project.
 
 ==== Ubyline
 
@@ -38,11 +38,11 @@ $ git clone https://github.com/UKPLab/lrec2016-ubyline.git
 $ cd lrec2016-ubyline/de.tudarmstadt.ukp.ubyline
 $ mvn package
 ----
-* Two files, named something like +dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar+ and +dkpro-uby-ubyline-0.2.4-SNAPSHOT.war+, will be generated in the target directory of the project.
+* Two files, named something like `dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar` and `dkpro-uby-ubyline-0.2.4-SNAPSHOT.war`, will be generated in the target directory of the project.
 
 === Home directory and configuration
 
-You must create a dedicated "home directory" for your Ubyline installation.  This directory will contain (among other things) a configuration file named +settings.properties+.  For now, simply create an empty configuration file in a directory of your choice:
+You must create a dedicated "home directory" for your Ubyline installation.  This directory will contain (among other things) a configuration file named `settings.properties`.  For now, simply create an empty configuration file in a directory of your choice:
 ----
 $ mkdir -p /path/to/ubyline/home/directory
 $ touch /path/to/ubyline/home/directory/settings.properties

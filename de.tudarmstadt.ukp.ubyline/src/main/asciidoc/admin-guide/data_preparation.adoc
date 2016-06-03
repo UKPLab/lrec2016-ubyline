@@ -37,7 +37,7 @@ abwechselnd.adjective
 $ mysql -u <user> -p <password>
 mysql> CREATE DATABASE UBYLINE;
 ----
-* Copy the following lines to your +settings.properties+ file, replacing the parameter values as appropriate:
+* Copy the following lines to your `settings.properties` file, replacing the parameter values as appropriate:
 ----
 database.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 database.driver=com.mysql.jdbc.Driver
@@ -58,10 +58,10 @@ Ubyline expects to read its corpus in a SemEval-like format, as documented.  In 
 
 * Tristan Miller, Darina Benikova, and Sallam Abualhaija. https://sites.google.com/site/germeval2015/program/2015_GermEval_LexSub.pdf?attredirects=0&d=1[GermEval 2015: LexSub – A shared task for German-language lexical substitution.] In _Proceedings of GermEval 2015: LexSub_, pages 1–9, September 2015.
 
-The data set can be downloaded from https://sites.google.com/site/germeval2015/data-sets[the GermEval 2015: LexSub website].  For the sake of simplicity, we manually merge the +train.xml+ and +test.xml+ files into an omnibus +complete-dataset.xml+ file.
+The data set can be downloaded from https://sites.google.com/site/germeval2015/data-sets[the GermEval 2015: LexSub website].  For the sake of simplicity, we manually merge the `train.xml` and `test.xml` files into an omnibus `complete-dataset.xml` file.
 
-* Copy the +complete-dataset.xml+ into your Ubyline home directory.
-* Add to +settings.properties+ the dataset parameters and the path to CWB's +cqp+ executable, as in the following lines:
+* Copy the `complete-dataset.xml` into your Ubyline home directory.
+* Add to `settings.properties` the dataset parameters and the path to CWB's `cqp` executable, as in the following lines:
 ----
   dataset.path=/path/to/ubyline/home/directory
   dataset.name=complete-dataset.xml
@@ -72,15 +72,15 @@ The data set can be downloaded from https://sites.google.com/site/germeval2015/d
 ----
 $ java -Dubyline.home=/path/to/ubyline/home/directory -cp /path/to/dkpro-uby-ubyline-0.2.4-SNAPSHOT-standalone.jar de.tudarmstadt.ukp.ubyline.Writers.ToCQPFormatWriter
 ----
-* A directory with the name +target+ will be created. It contains a directory with the name +lexsubcorpus+ which needs restructuring:
-** Change the name of the directory in the the +LEXSUB+ directory from +data+ to +cqp+
-** Change the location of the registry directory to be in the same level as +LEXSUB+ and +binaryCases+
-** Change the +Home+ variable in the +lexsub+ file in the +registry+ directory to the path to the cqp directory as following:
+* A directory with the name `target` will be created. It contains a directory with the name `lexsubcorpus` which needs restructuring:
+** Change the name of the directory in the the `LEXSUB` directory from `data` to `cqp`
+** Change the location of the registry directory to be in the same level as `LEXSUB` and `binaryCases`
+** Change the `Home` variable in the `lexsub` file in the `registry` directory to the path to the cqp directory as following:
 ----
 # path to binary data files
 HOME the path_to_the_cqp_directory
 ----
-* The +lexsubcorpus+ directory should have te following structure:
+* The `lexsubcorpus` directory should have te following structure:
 ----
  	+-- _lexsubcorpus
  	|	+-- _binaryCases
@@ -89,8 +89,8 @@ HOME the path_to_the_cqp_directory
  	|		+-- cqp
  	|	+-- _registry
 ----
-* Move the whole +lexsubcorpus+ directory to Ubyline home directory
-* Indicate the path to your +lexsubcorpus+ directory in the +settings.properties+ file for the variable +corpus.service.path+:
+* Move the whole `lexsubcorpus` directory to Ubyline home directory
+* Indicate the path to your `lexsubcorpus` directory in the `settings.properties` file for the variable `corpus.service.path`:
 ----
 corpus.service.path=<path to the lexsubcorpus directory>
 ----
