@@ -2,13 +2,13 @@
  * Copyright 2013
  * Ubiquitous Knowledge Processing (UKP) Lab
  * Technische Universität Darmstadt
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,9 +60,9 @@ import de.tudarmstadt.ukp.ubyline.model.Example;
 /**
  * This class provides a super-slimmed down API for CQP (although you should be able to use most CQP
  * commands via the exec() function).
- * 
+ *
  * @author Erik-Lân Do Dinh
- * 
+ *
  */
 public class CqpQuery
 	implements PreparedQuery, Closeable
@@ -70,7 +70,7 @@ public class CqpQuery
 	private final Log log = LogFactory.getLog(getClass());
 
 	private final CqpEngine engine;
-	
+
 	private final String corpus;
 
 	private String macrosLocation;
@@ -81,7 +81,7 @@ public class CqpQuery
 	private String leftDelim = "--%%%--";
 	private String rightDelim = "--%%%--";
 
-	private List<String> error;
+	private final List<String> error;
 	private String version;
 
 	private static final String CQP_VERSION_PREFIX = "CQP version ";
@@ -91,7 +91,7 @@ public class CqpQuery
 
 	private boolean querySuccess = true;
 
-	private Process cqpProcess;
+	private final Process cqpProcess;
 
 	private int maxResults = 1000;
 	private int timeout = 60 * 1000;
@@ -102,7 +102,7 @@ public class CqpQuery
 	public CqpQuery(CqpEngine aEngine, String aCorpus)
 	{
 		engine = aEngine;
-		
+
 		corpus = aCorpus;
 
 		if (corpus == null) {
@@ -146,7 +146,7 @@ public class CqpQuery
 
 	/**
 	 * Sends a query to cqp.
-	 * 
+	 *
 	 * @param aQuery
 	 *            query which shall be sent to cqp
 	 */
@@ -159,7 +159,7 @@ public class CqpQuery
 
 	/**
 	 * Sends a size command to cqp.
-	 * 
+	 *
 	 * @return size of the last query sent to cqp via runQuery()
 	 */
 	@Override
@@ -181,12 +181,12 @@ public class CqpQuery
 
 	/**
 	 * Sends a cat command to cqp.
-	 * 
+	 *
 	 * @param aSize
 	 *            maximum of result lines cat should deliver
 	 * @return result of the last query sent to cqp via runQuery()
-	 * @throws CASException 
-	 * @throws ResourceInitializationException 
+	 * @throws CASException
+	 * @throws ResourceInitializationException
 	 */
 	public List<Example> cat(int aSize)
 		throws DataAccessException, UIMAException, ResourceInitializationException
@@ -198,9 +198,9 @@ public class CqpQuery
         CAS cas = JCasFactory.createJCas().getCas();
 		for (int i = 0; i < examples.size(); i++) {
 		     Example ex = examples.get(i);
-		    
+
 		     loadBinaryCas(cas, ex.getDocumentId());
-		    
+
 		     ex.setText(cas.getDocumentText().substring(ex.getBeginOffset(), ex.getEndOffset()));
 		     List<WSDItem> items = JCasUtil.selectCovered(cas.getJCas(), WSDItem.class, ex.getBeginOffset(), ex.getEndOffset());
 		     if (!items.isEmpty()) {
@@ -208,16 +208,16 @@ public class CqpQuery
 		         ex.setInstanceId(item.getId());
 		         ex.setBeginMatch(item.getBegin());
 		         ex.setEndMatch(item.getEnd());
-		        
+
 	            }
 		     //ex.setInstanceId(item.getInstance());
 		}
 		return examples;
 	}
-	
-	
+
+
 	public void loadBinaryCas(CAS cas, String aDocumentId) throws ResourceInitializationException {
-	    
+
 	    try {
 	        cas.reset();
 	        String homeDir = System.getProperty("ubyline.home");
@@ -227,14 +227,14 @@ public class CqpQuery
         }
         catch (CollectionException e)  {
             // TODO Auto-generated catch block
-            throw new ResourceInitializationException(e );               
-            
+            throw new ResourceInitializationException(e );
+
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
             throw new ResourceInitializationException(e );
         }
-	   
+
         catch (UIMAException e) {
             // TODO Auto-generated catch block
             throw new ResourceInitializationException(e );
@@ -244,7 +244,7 @@ public class CqpQuery
 	/**
 	 * Searches for a sentence (represented by the given EvaluationItem) in cqp, and returns it with
 	 * context of a given size.
-	 * 
+	 *
 	 * @param aItem
 	 *            containing the sentence and its position in the corpus to search for
 	 * @param aContextSize
@@ -300,7 +300,7 @@ public class CqpQuery
 
 	/**
 	 * Executes a cqp command.
-	 * 
+	 *
 	 * @param aCmd
 	 *            command you want to send to cqp
 	 * @return output of cqp triggered by the command
@@ -330,6 +330,7 @@ public class CqpQuery
 				}
 				output.add(line);
 			}
+	        reader.close();
 		}
 		catch (IOException e) {
 			throw new InvalidDataAccessResourceUsageException(e.getMessage());
@@ -390,7 +391,7 @@ public class CqpQuery
 			m.reset(line);
 			if (m.matches() /* && m.groupCount() == 5 */) {
 				int position = Integer.valueOf(m.group(1));
-				String documentId = m.group(2).trim();				
+				String documentId = m.group(2).trim();
 				String lc = m.group(3).trim();
 				String match = m.group(4).trim();
 				String rc = m.group(5).trim();
@@ -569,7 +570,7 @@ public class CqpQuery
 
 	/**
 	 * Sets the context window of cqp.
-	 * 
+	 *
 	 * @param aLeft
 	 *            size of left context window
 	 * @param aRight
@@ -607,7 +608,7 @@ public class CqpQuery
 	{
 	    List<Example> le = new ArrayList<Example>();
 		try {
-             
+
            le = cat(maxResults);
         }
         catch (DataAccessException e) {

@@ -4,7 +4,6 @@ import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
@@ -27,7 +26,7 @@ public abstract class AbstractDao<T, K>
 		Table table = aClass.getAnnotation(Table.class);
 		return table.name();
 	}
-	
+
 	@Transactional
 	public void create(final T aModel)
 	{
